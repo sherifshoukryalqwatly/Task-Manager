@@ -67,7 +67,11 @@ const deleteAllTask =async (req,res,next)=>{
 }
 const getAllTasks =async (req,res,next)=>{
     try {
-        const tasks =await Task.find();
+        const page = parseInt(req.query.page);
+        const limit = 5;
+        const skip = (page-1)*limit;
+
+        const tasks =await Task.find({userId:req.user._id}).skip(skip).limit(limit);
         res.status(200).json({
             status:"success",
             data:tasks,
