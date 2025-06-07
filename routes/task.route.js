@@ -10,7 +10,7 @@ const {
     deleteTask,
     getAllTasks,
     getTaskById,
-    findTaskByTitle,
+    findTask,
     filterTask
 } = require('../controllers/task.controller.js');
 
@@ -20,7 +20,7 @@ router.delete('/',authorization(["admin","user"]),deleteAllTask);
 router.delete('/:id',authorization(["admin","user"]),deleteTask);
 router.get('/',authorization(["admin","user"]),getAllTasks);
 router.get('/filter',authorization(["admin","user"]),filterTask);
+router.get('/search',authorization(["admin","user"]),findTask);
 router.get('/:id',authorization(["admin"]),getTaskById);
-router.get('/search',authorization(["admin","user"]),findTaskByTitle);
 
 module.exports = router;

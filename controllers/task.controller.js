@@ -96,15 +96,18 @@ const getTaskById =async (req,res,next)=>{
     }
 }
 
-const findTaskByTitle =async (req,res,next)=>{
+const findTask =async (req,res,next)=>{
     try {
-        const {title} = req?.query
-        const query={}
-        if(title){
-            query.title = {$regex:new RegExp(title,'i')};
-        }
-        const tasks = await Task.find(qurey);
-        res.status(200).json({
+        const {search} = req.query;
+        const tasks =await Task.find({
+            userId:req.user._id,
+            $or:[
+                {title:{$regex:search,$options:'i'}},
+                {describtion:{$regex:search,$options:'i'}},
+                {catigory:{$regex:search,$options:'i'}}
+            ]
+        })
+        return res.status(200).json({
             status:"success",
             tasksLength:tasks.length,
             data:tasks
@@ -155,6 +158,6 @@ module.exports = {
     deleteTask,
     getAllTasks,
     getTaskById,
-    findTaskByTitle,
+    findTask,
     filterTask
 }
