@@ -1,3 +1,4 @@
+const { json } = require('express');
 const Task = require('../models/task.model.js');
 
 const createTask = async (req,res,next)=>{
@@ -115,7 +116,38 @@ const findTaskByTitle =async (req,res,next)=>{
         })
     }
 }
-
+const filterTask =async (req,res,next)=>{
+    try {
+        const {category, priority, status} = req.query;
+        let filter = {userId:req.user._id};
+        if(category){
+            filter.category = category
+        }
+        if(priority){
+            filter.priority = priority
+        }
+        if(status){
+            filter.status = status
+        }
+        const tasks = await Task.find(filter);
+        if(!tasks){
+            return res.status(400).json({
+                status:"Failed",
+                Message:"Not Found"
+            })
+        }
+        return res.status(200).json({
+            status:"Success",
+            Tasks:tasks
+        });
+        
+    } catch (error) {
+        return res.status(400).json({
+            status:"Failed",
+            Message:error
+        })
+    }
+}
 module.exports = {
     createTask,
     updateTask,
@@ -123,5 +155,6 @@ module.exports = {
     deleteTask,
     getAllTasks,
     getTaskById,
-    findTaskByTitle
+    findTaskByTitle,
+    filterTask
 }

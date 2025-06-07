@@ -25,6 +25,7 @@ const taskSchema =new Schema({
     },
     catigory: {
         type:String,
+        default:"personal"
     },
     userId:{
         type:mongoose.SchemaTypes.ObjectId,
