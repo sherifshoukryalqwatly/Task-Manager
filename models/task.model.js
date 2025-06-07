@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { options } = require('../routes/task.route.js');
 
 const {Schema}= mongoose;
 
@@ -29,8 +30,14 @@ const taskSchema =new Schema({
     },
     userId:{
         type:mongoose.SchemaTypes.ObjectId,
-        ref:"User",
+        ref:'User',
         required:[true,"UserID Is required"]
+    }
+},{
+    toJSON:{
+        transform:(doc,ret,options)=>{
+            delete ret.__v;
+        }
     }
 }) 
 

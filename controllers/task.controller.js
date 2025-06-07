@@ -83,7 +83,7 @@ const getAllTasks =async (req,res,next)=>{
 const getTaskById =async (req,res,next)=>{
     try {
         const {id} = req.params;
-        const task = await Task.findOne({_id:id});
+        const task = await Task.findOne({_id:id}).populate('userId');
         res.status(200).json({
             status:"success",
             data:task

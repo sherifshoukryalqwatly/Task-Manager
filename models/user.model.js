@@ -33,6 +33,13 @@ const userSchema = new Schema({
     default: "user",
     required: [true, "User Must Have Role"]
     }  
+},{
+    toJSON:{
+        transform:(doc,ret,options)=>{
+            delete ret.password;
+            delete ret.__v;
+        }
+    }
 });
 
 // Correct pre-save hook
